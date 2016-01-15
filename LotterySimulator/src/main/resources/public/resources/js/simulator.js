@@ -1,5 +1,4 @@
 
-
 var isMobile = {
 	Android : function() {
 		return navigator.userAgent.match(/Android/i);
@@ -62,8 +61,16 @@ function drawChart($data) {
 var app = angular.module('app', []);
 
 
-app.controller('MainController', function($rootScope,$scope, $http) {
+app.controller('MainController', function($rootScope,$scope, $http,$interval) {
 	
+	
+	 $scope.callAtInterval = function() {
+	        $scope.controlPing();
+	 }
+
+	 $interval( function(){ $scope.callAtInterval(); }, 5000);
+	
+	 
 	 $rootScope.random=Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 	 $rootScope.activePage='firstPage';
 	 $scope.renderDesktopAdd = function() {
@@ -92,7 +99,13 @@ app.controller('MainController', function($rootScope,$scope, $http) {
 				 return 'contentDesktop';
 			 }
 	  };  
-	 
+	  
+	  $scope.controlPing = function() {
+		  return $http({
+		        method: 'GET',
+		        url: '/controlPing?param='+Math.random() //Random je zbog explorera
+		    });   
+	  }
 	
 });
 
@@ -414,6 +427,40 @@ app.controller('SimulationButtons', function($rootScope,$scope,$http){
 	
 	}
 	
+});
+
+
+
+
+/** Info controller*/
+
+app.controller('InfoController', function($scope, $http){
+	
+	getInitialData($scope,$http);
+    
+    function getInitialData($scope, $http) {
+        $http.get('/simulationInfo').
+            success(function(data) {
+                $scope.simulationInfo = data;
+            });
+    };
+	 
+	 
+	 $scope.processForm = function() {
+		 reset($http, $scope).success(function(){ 
+			 	getInitialData($scope,$http);	
+			 	console.log('resetirano');
+		   	});
+	};
+	
+	 
+		reset  = function($http, $scope) {
+			return $http({
+		        method: 'GET',
+		        url: '/resetInfo?param='+Math.random() //Random je zbog explorera
+		    });      
+		}
+
 });
 
 

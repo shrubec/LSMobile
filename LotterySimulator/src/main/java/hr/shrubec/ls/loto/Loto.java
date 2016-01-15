@@ -62,7 +62,7 @@ public class Loto {
 	private Integer totalDrawingCount=0;
 	private String random;
 	
-	private Integer speed=20;
+	private Integer speed=10;
 	private int modulKolo=5;
 	private int modulStatistika=100;
 	
@@ -169,8 +169,6 @@ public class Loto {
 	}
 	
 	public void kombinacijePojedinacno() {
-		
-		System.out.println("Izvlacim kolo " + trenutnoKoloBroj+", " + httpSession.getMaxInactiveInterval()+", " + httpSession.getLastAccessedTime());
 		
 		if (this.finished == true) {
 			return;
@@ -283,18 +281,6 @@ public class Loto {
 		List<Listic> osvjezeniListici=new ArrayList<Listic>();
 		osvjezeniListici.addAll(listici);
 		
-//		if (brojeva == 6 && odBrojeva == 45) {
-//			cal.add(Calendar.DAY_OF_WEEK,7);
-//		}
-//		else if (brojeva == 7 && odBrojeva == 39) {
-//			int dan=cal.get(Calendar.DAY_OF_WEEK);
-//			if (dan == Calendar.WEDNESDAY ) 
-//				cal.add(Calendar.DAY_OF_WEEK,3);
-//			else
-//				cal.add(Calendar.DAY_OF_WEEK,4);
-//		}
-//		
-		
 		cal.add(Calendar.DAY_OF_WEEK,1);
 		int dan=cal.get(Calendar.DAY_OF_WEEK);
 		while (!izvlacenja.contains(dan)) {
@@ -333,7 +319,7 @@ public class Loto {
 //					LOGGER.info(broj.getBroj().intValue()+ ", ");
 					kombinacijaDo.getOdigrano().add(broj.getBroj());
 				}
-//				LOGGER.info("Pogo�eno:");
+//				LOGGER.info("Pogodjeno:");
 				
 				int pogodjeno=0;
 				for (Broj broj:kombinacija) {
@@ -359,7 +345,7 @@ public class Loto {
 				koloDo.setUkupnoPogodjeno10(prethodnoKolo.getUkupnoPogodjeno10());
 				
 				koloDo.povecajPogodjeno(pogodjeno);
-//				LOGGER.info("Izvu�eno:");
+//				LOGGER.info("Izvuceno:");
 				for (Broj broj:izvlacenje.getIzvucenaKombinacija()) {
 //					LOGGER.info(broj.getBroj().intValue()+ ", ");
 					koloDo.getIzvuceno().add(broj.getBroj());
@@ -398,8 +384,21 @@ public class Loto {
 			if (trenutnoKolo.getKolo() % modulKolo == 0)
 				this.template.convertAndSend("/topic/message/"+random, simulationDO.getDrawing());
 			
-			if (trenutnoKolo.getKolo() % modulStatistika == 0)
+			if (trenutnoKolo.getKolo() % modulStatistika == 0) {
 				this.template.convertAndSend("/topic/message2/"+random, simulationDO.getStatistics());
+
+				Calendar current=Calendar.getInstance();
+				Calendar calLastAccessed=Calendar.getInstance();
+				calLastAccessed.setTimeInMillis(httpSession.getLastAccessedTime());
+				
+				calLastAccessed.add(Calendar.SECOND, 10);
+				if (calLastAccessed.getTime().before(current.getTime())) {
+					System.out.println("korisnik je otisao!! " + calLastAccessed.getTime()+" / " + current.getTime());
+					this.finished=true;
+				}
+				
+			
+			}
 		}
 
 	}

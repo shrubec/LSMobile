@@ -44,12 +44,6 @@ public class SimulationController {
 	
 	@RequestMapping(value="/initialSimulationParameters")
 	public SimulationParameters getInitialSimulationParameters() {
-		
-		List<String> list=infoCollector.getInfo();
-		for (String s:list) {
-			System.out.println(s);
-		}
-		
 		infoCollector.addParametersHit();
 		clearSimulation();
 		SimulationParameters data=new SimulationParameters();
@@ -66,18 +60,6 @@ public class SimulationController {
 		infoCollector.addSimulationHit();
 		httpSession.setAttribute("simulationParameters", data);
 		createSimulation(data);
-		
-//		List<String> days=new ArrayList<String>();
-//		for (int i=0; i < data.getDays().length; i++) {
-//			boolean b=data.getDays()[i];
-//			if (b) {
-//				days.add(String.valueOf(i));
-//			}
-//		}
-//		
-//		Loto loto=new Loto(template,data.getNumbers(),data.getNumbersFrom(), getDuration(data.getDuration()),days);
-//		httpSession.setAttribute("loto",loto);
-		
         return data;
     }
 	
@@ -165,6 +147,24 @@ public class SimulationController {
 		if (loto != null) {
 			loto.destroySimulation();
 		}
+	}
+	
+	@RequestMapping(value="/simulationInfo")
+	public List<String> getStatisticInfo() {
+		return infoCollector.getInfo();
+    }
+	
+	@RequestMapping(path="/resetInfo",method = RequestMethod.GET)
+	public String resetInto(@RequestParam String param) {
+		infoCollector.reset();
+		System.out.println("Info resetiran");
+		return "";
+	}
+	
+	//upisuje last accessed time u session
+	@RequestMapping(path="/controlPing",method = RequestMethod.GET)
+	public String controlPing(@RequestParam String param) {
+		return "";
 	}
 	
 }

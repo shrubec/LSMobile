@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lottery Simulator</title>
+
+    <!-- Bootstrap -->
+<!--     <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    
+      <link href="resources/bootstrap/css/bootstrap_cerulean.min.css" rel="stylesheet">
+<!--        <link href="resources/bootstrap/css/bootstrap_flatly.css" rel="stylesheet"> -->
+    
+    
+    
+    <link href="resources/css/style.css" rel="stylesheet">
+<!--  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script> -->
+
+ 	<script src="resources/js/jquery.min.js"></script>
+    <script src="resources/js/sockjs.min.js"></script>
+    <script src="resources/js/stomp.min.js" ></script>
+	<script src="resources/js/jsapi.js"></script>
+<!-- 	<script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+	
+ 	<script src="resources/js/angular.min.js"></script>
+ 	<script src="resources/js/simulator.js"></script>
+ 	
+
+  </head>
+  <body>
+  
+  <div id="container">
+	  <div id="header">
+	    <h1>Lottery Simulator</h1>
+	    	<p><em>The Lottery... get rich or die trying!</em> </p>
+	  </div>
+	  
+  </div>
+    
+     <div>
+     <div ng-app="app" ng-controller="InfoController">
+     
+     
+     
+     	
+		     <div class="simulatorBody" >
+		    
+				<div class="well-lg" >
+				  <h3>Statistika</h3>
+				</div>
+				
+			
+			  
+				  
+				   
+					<form ng-submit="processForm()">
+					
+					<table>
+				  <tr ng-repeat="i in simulationInfo">
+				    <td>{{ i }}</td>
+				  </tr>
+				</table>
+						
+						<br/>
+						<button type="submit" class="btn btn-primary btn-sm ">  Resetiraj </button>
+					  
+					</form>
+					
+				    
+     	
+     	
+   
+    </body>
+    
+    
+    
+ </html>

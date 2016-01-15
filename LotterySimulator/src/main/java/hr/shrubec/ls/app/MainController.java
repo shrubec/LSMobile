@@ -21,4 +21,9 @@ public class MainController {
 		return "simulationMain.html";
 	}
 	
+	@RequestMapping("/info")
+	public String info() {
+		return "simulatorInfo.html";
+	}
+	
 }
