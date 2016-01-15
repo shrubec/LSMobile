@@ -68,7 +68,13 @@
      
      	<div  ng-class="getContentClass()">
      
+     
+     	
+     
      	<div ng-if="activePage == 'firstPage' ">
+     	
+     	
+     
      	
 		     <div class="simulatorBody" >
 		    
@@ -90,7 +96,7 @@
 				  <div class="panel-body">
 				  
 				   <div  ng-app="app" ng-controller="InitialController">
-				   
+				  
 					<form ng-submit="processForm()">
 					
 					<div class="form-group">
@@ -156,6 +162,7 @@
      	<div ng-if="activePage == 'secondPage' ">
      		<div class="simulatorBody">
 			   <div  ng-app="app" ng-controller="NumbersController">
+			   
 				    <div  ng-class="getPanelClass()">
 					  <div class="panel-heading">Selected numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
 
@@ -269,7 +276,10 @@
      	
      	<div ng-if="activePage == 'thirdPage' ">
      		<div class="simulatorBody" ng-app="app" ng-controller="Simulation">
+     		
 		    	<div class="panel panel-success">
+		    	
+		    	
 		  			<div class="panel-body">
 					  <form > 
 					  	<ul class="list-group">

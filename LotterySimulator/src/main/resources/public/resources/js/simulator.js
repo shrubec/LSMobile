@@ -70,7 +70,6 @@ app.controller('MainController', function($rootScope,$scope, $http,$interval) {
 
 	 $interval( function(){ $scope.callAtInterval(); }, 5000);
 	
-	 
 	 $rootScope.random=Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 	 $rootScope.activePage='firstPage';
 	 $scope.renderDesktopAdd = function() {
@@ -116,7 +115,7 @@ app.controller('InitialController', function($rootScope,$scope, $http) {
 	getInitialData($scope, $http);
 
 	function getInitialData($scope, $http) {
-		$http.get('/initialSimulationParameters').success(function(data) {
+		$http.get('/initialSimulationParameters?random='+Math.random()).success(function(data) {
 			$scope.formData = data;
 			$scope.formData.random=$rootScope.random;
 		});
@@ -160,7 +159,7 @@ app.controller('NumbersController', function($rootScope,$scope,$http){
 	$scope.numCount=0;
     
     function getInitialData($rootScope,$scope, $http) {
-        $http.get('/simulationParameters').
+        $http.get('/simulationParameters?random='+Math.random()).
             success(function(data) {
                 $scope.simulationParameters = data;
                 $scope.getPanelClass = function() {
