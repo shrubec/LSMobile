@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Lottery Simulator</title>
+
+    <!-- Bootstrap -->
+    <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<!--     <script src="resources/bootstrap/js/bootstrap.min.js"></script> -->
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+    
+     <script type="text/javascript">
+     
+    	var app = angular.module('app', []);
+    	
+	    	app.controller('NumbersController', function($scope,$http, $window){
+	    		
+	    		getInitialData($scope,$http);
+
+	    		$scope.numCount=0;
+	
+	            
+	            function getInitialData($scope, $http) {
+	                $http.get('/simulationParameters').
+	                    success(function(data) {
+	                        $scope.simulationParameters = data;
+	                        $scope.getPanelClass = function() {
+	       	    			 if ($scope.numCount == $scope.simulationParameters.numbers) {
+	       	    				 return "panel panel-success";
+	       	    			 }
+	       	    			 else {
+	       	    				 return "panel panel-danger";
+	       	    			 }
+	       	    		  }   
+	       	    		 
+	       	    		 $scope.getButtonClass = function() {
+		       	    			 if ($scope.numCount == $scope.simulationParameters.numbers) {
+		       	    				 return "btn btn-primary btn-lg btn-block";
+		       	    			 }
+		       	    			 else {
+		       	    				 return "btn btn-primary btn-lg btn-block disabled";
+		       	    			 }
+	       	    		  	}   
+	                        
+	                    });
+	            };
+	    		 
+	    		 $scope.goBack = function() {
+	    			 $window.location.href = '/';
+	    		 };
+	    		 
+	    		 $scope.selectNumber = function() {
+	    			$scope.numCount=0;
+	    			for (var i=0; i < $scope.simulationParameters.renderNumbers.length; i++) {
+	    				 num=$scope.simulationParameters.renderNumbers[i];
+	    			 	 if (num.selected == true) {
+	    			 		$scope.numCount++;
+	    			   	 }
+	    			}
+	    		 };
+	    		 
+	    		 $scope.processForm = function() {
+		    		 saveData($http, $scope).success(function(){ 
+	 				  	 $window.location.href = '/simulation.html';
+	 			   	});
+	    		};
+	    		
+	    		saveData  = function($http, $scope) {
+	    			 $scope.simulationParameters.action=1;
+	    			 var data=$scope.simulationParameters;
+	    			 return $http({
+	    	    	        method: 'POST',
+	    	    	        url: '/initializeSimulation',
+	    	    	        contentType: "application/json",
+	    	    	     	data:$scope.simulationParameters
+	    	    	  });
+	    		 };
+    		
+    	});
+	    	
+    </script>
+
+  </head>
+  <body>
+  
+  <div id="container">
+	  <div id="header">
+	    <h1>Lottery Simulator</h1>
+	    	<p><em>Neki slogan </em> </p>
+	  </div>
+  </div>
+    
+     <div class="simulatorBody">
+  
+   <div  ng-app="app" ng-controller="NumbersController">
+    
+    
+<!--     <pre> -->
+<!--     {{ simulationParameters }} -->
+<!-- </pre> -->
+    
+    
+    <div  ng-class="getPanelClass()">
+	  <div class="panel-heading">Selected numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
+	  
+	  <form ng-submit="processForm()">
+	  
+		  <div class="panel-body">
+		  
+		  
+			  <div style="margin-left:20px">
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index < 6 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 6 && $index < 12 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 12 && $index < 18 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 18 && $index <24 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 24 && $index < 30 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected"  ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 30 && $index < 36 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 36 && $index < 42 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 42 && $index < 48 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 48 && $index < 54 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 54 && $index < 60 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 60 && $index < 66 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 66 && $index < 72 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 72 && $index < 78 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	<div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 78 && $index < 84 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+				   	
+				   	 <div class="row">
+					   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 84 && $index <= 90 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+					   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+					   	</label>
+				   	</div>
+			  
+			  </div>
+		  
+		  		<div style="margin-top:20px;">
+					<button type="submit" ng-class="getButtonClass()" >Start simulation</button>
+			    	<button  class="btn btn-secondary btn-lg btn-block" ng-click="goBack()">Back</button>
+		  		</div>
+		    	
+		   </div>
+		
+	   </form>
+	   
+   
+   </div>
+   
+   </div>
+   
+   
+   
+    </body>
+    
+    
+    
+ </html>

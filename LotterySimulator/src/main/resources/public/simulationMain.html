@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lottery Simulator</title>
+
+    <!-- Bootstrap -->
+<!--     <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    
+      <link href="resources/bootstrap/css/bootstrap_cerulean.min.css" rel="stylesheet">
+<!--        <link href="resources/bootstrap/css/bootstrap_flatly.css" rel="stylesheet"> -->
+    
+    
+    
+    <link href="resources/css/style.css" rel="stylesheet">
+<!--  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script> -->
+
+ 	<script src="resources/js/jquery.min.js"></script>
+    <script src="resources/js/sockjs.min.js"></script>
+    <script src="resources/js/stomp.min.js" ></script>
+	<script src="resources/js/jsapi.js"></script>
+<!-- 	<script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+	
+ 	<script src="resources/js/angular.min.js"></script>
+ 	<script src="resources/js/simulator.js"></script>
+ 	
+ 	<script type="text/javascript">
+	 	<!-- Analitika -->
+		 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+			 ga('create', 'UA-57049166-1', 'auto');
+			 ga('send', 'pageview');
+		
+	</script>
+
+  </head>
+  <body>
+  
+  <div id="container">
+	  <div id="header">
+	    <h1>Lottery Simulator</h1>
+	    	<p><em>The Lottery... get rich or die trying!</em> </p>
+	  </div>
+	  
+  </div>
+    
+     <div>
+     <div ng-app="app" ng-controller="MainController">
+     
+        <div id="sidebarLeft" ng-if="renderDesktopAdd()">
+
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Simulator5 -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:250px;height:600px"
+			     data-ad-client="ca-pub-2684111047384583"
+			     data-ad-slot="6921941752"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+
+        </div>
+     
+     	<div  ng-class="getContentClass()">
+     
+     	<div ng-if="activePage == 'firstPage' ">
+     	
+		     <div class="simulatorBody" >
+		    
+				<div class="well-lg" >
+				  <h3>Welcome to Lottery Simulator</h3>
+				  <p>
+				  Select lottery type, drawing days and your lucky numbers, then start a simulation to find out your real chances to win a lottery. 
+				 </p>
+				  <p>If you win a jackpot in simulator, maybe you'll be lucky enough to win in real life!</p>
+				<p>
+				  Good luck!
+				  </p>
+				</div>
+				
+			
+			    <div class="panel panel-primary">
+			  
+				  <div class="panel-heading">Simulation parameters</div>
+				  <div class="panel-body">
+				  
+				   <div  ng-app="app" ng-controller="InitialController">
+				   
+					<form ng-submit="processForm()">
+					
+					<div class="form-group">
+					  <label class="col-sm-2 control-label">Lottery Type:</label>
+						    <select class="form-control" ng-model="formData.type">
+						    <option value="1">Lotto 5/35</option>
+							<option value="2">Lotto 5/36</option>
+							<option value="3">Lotto 5/40</option>
+							<option value="4">Lotto 5/42</option>
+							<option value="5">Lotto 5/90</option>
+							<option value="6">Lotto 6/39</option>
+							<option value="7">Lotto 6/42</option>
+							<option value="8">Lotto 6/45</option>
+							<option value="9">Lotto 6/49</option>
+							<option value="10">Lotto 7/35</option>
+							<option value="11">Lotto 7/39</option>
+							<option value="12">Lotto 7/49</option>
+						</select>
+					  </div>
+					
+					   <div class="form-group">
+					    <label class="col-sm-2 control-label" style="width:250px;">Simulation duration</label>
+					       <select class="form-control" ng-model="formData.duration">
+							  <option value="1">10 year</option>
+							  <option value="2">20 years</option>
+							  <option value="3">50 years</option>
+							  <option value="4">100 years</option>
+							  <option value="5">500 years</option>
+							  <option value="6">1000 years</option>
+						</select>
+						</div>
+						
+						 <div class="form-group">
+					    	<label class="col-sm-2 control-label">Play every</label><br/>
+					    	
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[0]">Monday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[1]">Tuesday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[2]">Wednesday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[3]">Thursday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[4]">Friday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[5]">Saturday</label></div>
+					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[6]">Sunday</label></div>
+					
+						</div>
+						
+						<button type="submit" class="btn btn-primary btn-lg btn-block">  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next</button>
+					  
+					</form>
+					
+<!-- 					  <pre> -->
+<!-- 				    {{ formData }} -->
+<!-- 				</pre> -->
+					
+					</div>
+				    
+				   </div>
+			   </div>
+		   
+		   </div>
+     	</div>
+     	
+     	
+     	<div ng-if="activePage == 'secondPage' ">
+     		<div class="simulatorBody">
+			   <div  ng-app="app" ng-controller="NumbersController">
+				    <div  ng-class="getPanelClass()">
+					  <div class="panel-heading">Selected numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
+
+					  <form ng-submit="processForm()">
+						  <div class="panel-body">
+							  <div style="margin-left:20px">
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index < 6 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 6 && $index < 12 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 12 && $index < 18 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 18 && $index <24 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 24 && $index < 30 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected"  ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 30 && $index < 36 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 36 && $index < 42 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 42 && $index < 48 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 48 && $index < 54 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 54 && $index < 60 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 60 && $index < 66 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 66 && $index < 72 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 72 && $index < 78 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	<div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 78 && $index < 84 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+								   	
+								   	 <div class="row">
+									   	<label class="checkbox-inline checkboxLS" ng-if="$index >= 84 && $index <= 90 && renderNumber.rendered" ng-repeat="renderNumber in simulationParameters.renderNumbers">
+									   		<input type="checkbox" id="inlineCheckbox1" value="option1"  ng-model="renderNumber.selected" ng-click="selectNumber()">   {{renderNumber.value}}
+									   	</label>
+								   	</div>
+							  
+							  </div>
+						  
+						  		<div style="padding:20px;">
+									<button type="submit" ng-class="getButtonClass()" ng-disabled="getButtonClassDisabled()" >  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>Next</button>
+							    	<button  class="btn btn-secondary btn-lg btn-block" ng-click="goBack()">  <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> Back</button>
+						  		</div>
+						    	
+						   </div>
+					   </form>
+				   </div>
+			   </div>
+     		</div>
+     	</div>
+     	
+     	
+     	<div ng-if="activePage == 'thirdPage' ">
+     		<div class="simulatorBody" ng-app="app" ng-controller="Simulation">
+		    	<div class="panel panel-success">
+		  			<div class="panel-body">
+					  <form > 
+					  	<ul class="list-group">
+							<li class="list-group-item">
+							    <span class="badge badgeWidth"> <label class="labelColumnNumber2">{{simulation.drawing}}</label></span>
+							    Drawing number
+							 </li>
+							  
+							 <li class="list-group-item">
+							    <span class="badge badgeWidth"> <label class="labelColumnNumberDate">{{simulation.date}}</label></span>
+							    Drawing date
+							 </li>
+							  
+							 <li class="list-group-item">
+							     <span class="badge badgeWidth">
+									 <label class="labelColumnNumber2">{{simulation.numberOfHits}}</label>
+								</span>
+							    Number of hits
+							 </li>
+							  
+							 <li class="list-group-item">
+							   	 <span class="badge" ng-repeat="number in simulation.selectedNumbers | orderBy:number:true" ng-class="{'badge badgeBlue': simulation.drawedNmbers.indexOf(number) > -1, 'badge': simulation.drawedNmbers.indexOf(number) < 0}">
+								  	<label class="labelColumnNumber2">{{number}}</label>
+								 </span>
+							   	My numbers
+							</li>
+							  
+							<li class="list-group-item">
+							  	<span class="badge" ng-repeat="number in simulation.drawedNmbers | orderBy:number:true">
+								     <label class="labelColumnNumber2">{{number}}</label>
+								</span>
+							    Drawed numbers
+							</li>
+							  
+						    <li class="list-group-item" ng-if="simulation.finished == false || simulation.finished == undefined">
+									Simulation progress
+								<div class="progress" >
+								  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"  ng-style="{width : ( simulation.percantage + '%' ) }">
+								     {{simulation.percantage}}%
+								  </div>
+								</div>
+							</li>
+							
+							 <li class="list-group-item" ng-if="simulation.finished == true">
+								<h4> <span class="label label-success" >  {{simulation.message}} </span>  </h4>
+							</li>
+							
+						</ul>
+						
+				</form>
+		    
+			     <div class="simulatorResults" >
+					 <div ng-app="app" style="width:80%;margin: 0 auto;" ng-controller="SimulationButtons">
+				  		 <div >
+				  		 	<div style="overflow: auto;">
+				  		 		<div style="width:50%; float:left; padding:3px; ">
+						  		 	<button  ng-if="renderStart() == true" ng-class="getActionButtonClass(1)" ng-disabled="getActionButtonClassDisabled(1)" ng-click="start()" >
+									  <span class="glyphicon glyphicon-play" aria-hidden="true" ></span>  Start
+									</button>
+						  		 	<button ng-if="renderResume() == true" ng-class="getActionButtonClass(1)" ng-disabled="getActionButtonClassDisabled(1)" ng-click="start()" >
+									  <span class="glyphicon glyphicon-play" aria-hidden="true" ></span>  Resume
+									</button>
+				  		 		</div>
+				  		 		<div style="width:50%; float:right;padding:3px; ">
+				  		 			<button type="submit"  ng-class="getActionButtonClass(2)" ng-disabled="getActionButtonClassDisabled(2)" ng-click="pause()">
+									  <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pause
+									</button>
+				  		 		</div>
+				  		 	</div>
+				  		 
+					  		<div style="overflow: auto;">
+				  		 		<div style="width:50%; float:left;padding:3px; ">
+						  		 	<button type="submit"  ng-class="getActionButtonClass(3)" ng-disabled="getActionButtonClassDisabled(3)" ng-click="next()">
+									  <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Next 
+									</button>
+				  		 		</div>
+				  		 		<div style="width:50%; float:right;padding:3px; ">
+							    	<button type="submit" ng-class="getActionButtonClass(4)" ng-click="restart()"> 
+									  <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span> Reset 
+									</button>
+				  		 		</div>
+				  		 	</div>
+							 <div style="overflow: auto;">
+								<div style="position: relative;margin-top:10px;padding:3px; ">
+									<button type="submit"ng-class="getActionButtonClass(5)" ng-click="back()">
+									  <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> Parameters
+									</button>
+								</div>
+							</div>
+				  		 </div>
+			  		</div>
+			     <div id="piechart" style="height:400px;width:100%;" ng-app="app" ng-controller="SimulationStatistics"></div>
+			  </div>
+		     </div>
+		  </div>
+		 </div>
+		 
+     </div>
+     
+     
+     
+     
+     </div>
+     	
+
+    <div id="sidebar" ng-if="renderDesktopAdd()">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Simulator4 -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:250px;height:600px"
+			     data-ad-client="ca-pub-2684111047384583"
+			     data-ad-slot="5445208555"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+
+	</div>
+
+	 <div id="footer" ng-if="renderMobileAdd()">
+	 
+	 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:320px;height:50px"
+		     data-ad-client="ca-pub-2684111047384583"
+		     data-ad-slot="3527823358"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	 
+	 </div>
+
+    </div>
+    
+    
+    </div>
+   
+   
+   <div id="footer1">
+	    <footer>
+		  <p>Posted by: Sasa Hrubec</p>
+		  <p>Contact information: <a href="mailto:shrubec@gmail.com">shrubec@gmail.com</a></p>
+		</footer> 
+	</div> 
+   
+    </body>
+    
+    
+    
+ </html>

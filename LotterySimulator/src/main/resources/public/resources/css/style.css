@@ -1,0 +1,144 @@
+
+body {background: #f2f2f2 url(../images/top.jpg) repeat-x}
+
+#container {margin: auto; width: 960px; font-size: .875em;}
+
+#header {height: 125px;}
+
+#header h1, #header p {
+	margin: 0px;
+	margin-left: 10px;
+	line-height: normal;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+#header h1 {
+	padding-top: 40px;
+	font-size: 40px;
+}
+
+#header p {
+	font-size: 12px;
+}
+
+.simulatorBody {
+	margin-top: 1%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+
+.checkboxLS {
+	width:40px;
+}
+
+.labelColumnText {
+	width:45px;
+	text-align: left;
+	font-weight: normal;
+	margin-left:15px;
+}
+
+.labelColumnNumber {
+	width:25px;
+	text-align: left;
+	font-weight: normal;
+	margin-left:15px;
+}
+
+.labelColumnNumber2 {
+	width:15px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: normal;
+}
+
+.labelColumnNumberDate {
+	text-align: center;
+	vertical-align: middle;
+	font-weight: normal;
+}
+
+.columnCentered {
+/* 	text-align: center; */
+	float:center;
+}
+
+.badgeBlue {
+	background-color: #FF0000;
+	font-size: 1.15em;
+}
+.badgeWidth {
+	width: 80px;
+}
+
+.labelColumnNumberWinned {
+	background-color: green;
+	font-weight: bold;
+}
+
+.checkboxDaysOfTheWeek {
+	width:100px;
+}
+
+.redColumn {
+	background-color: green;
+	text-align: center;
+	font-weight: bold;
+}
+
+#sidebarLeft {
+	float: left;
+	width: 15%;
+	padding: 24px;
+	overflow: hidden;
+	margin-top: 1%;
+/* 	background-color: green; */
+}
+
+#sidebar {
+	float: right;
+	width: 15%;
+	padding: 24px;
+	margin-top: 1%;
+	overflow: hidden;
+/* 	margin-right:1%; */
+/* 	background-color: green; */
+}
+
+
+#content {
+	float: left;
+	width: 70%;
+	overflow: hidden;
+}
+
+.contentDesktop {
+	float: left;
+	width: 70%;
+	overflow: hidden;
+}
+
+.contentMobile {
+
+}
+
+#footer {
+ 	position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+#footer1{
+    display: table;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+	height: 28px;
+	font-size: x-small;
+}
+

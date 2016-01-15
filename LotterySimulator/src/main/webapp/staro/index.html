@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Lottery Simulator</title>
+
+    <!-- Bootstrap -->
+    <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+ 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+	<script type="text/javascript">
+	
+		var isMobile = {
+			    Android: function() {
+			        return navigator.userAgent.match(/Android/i);
+			    },
+			    BlackBerry: function() {
+			        return navigator.userAgent.match(/BlackBerry/i);
+			    },
+			    iOS: function() {
+			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			    },
+			    Opera: function() {
+			        return navigator.userAgent.match(/Opera Mini/i);
+			    },
+			    Windows: function() {
+			        return navigator.userAgent.match(/IEMobile/i);
+			    },
+			    any: function() {
+			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			    }
+			};
+		
+		/*
+		if(isMobile.any()) {
+			   alert("This is a Mobile Device");
+			}
+	  */
+	
+	 
+	var app = angular.module('app', []);
+	app.controller('InitialController', function ($scope, $http, $window) {
+
+		getInitialData($scope,$http);
+		
+		function getInitialData($scope, $http) {
+            $http.get('/initialSimulationParameters').
+                success(function(data) {
+                    $scope.formData = data;
+                });
+        };
+		
+		/*
+		 var days=[false,false,false,false,false,false,true];
+		 var renderNumbers=[];
+		*/
+		
+		 /*
+		 $scope.formData = {
+				  type: '1',
+				  duration: '2',
+				  numbers: 0,
+		 		  numbersFrom: 0,
+				  days,
+				  action: '0',
+				  renderNumbers
+		 };*/
+
+		 
+		 // process the form
+		  $scope.processForm = function() {
+
+		   	var valid=false;
+		   	for (var i=0; i < $scope.formData.days.length; i++) {
+		   		 valid=$scope.formData.days[i];
+		   	}
+		   	if (!valid) {
+		   		alert('Please select Day of the week');
+		   	}
+		   	else {
+		   		saveData($http, $scope).success(function(){ 
+			   	 	$window.location.href = '/numbers.html';
+		   		});
+		   	}
+		    	
+		 };
+		 
+		 saveData  = function($http, $scope) {
+			 var data=$scope.formData;
+			 return $http({
+	    	        method: 'POST',
+	    	        url: '/saveParameters',
+	    	        contentType: "application/json",
+	    	     	data:$scope.formData
+	    	    });
+		 };
+		 
+	 });
+	
+	
+	</script>
+
+
+  </head>
+  <body>
+  
+  <div id="container">
+	  <div id="header">
+	    <h1>Lottery Simulator</h1>
+	    	<p><em>Neki slogan </em> </p>
+	  </div>
+  </div>
+    
+     <div class="simulatorBody">
+    
+		<div class="well-lg">
+		  <h3>Welcome to Lottery Simulator</h3>
+		  <p>
+		  Select lottery type, drawing days and your lucky numbers, then start a simulation to find out your real chances to win a lottery. 
+		  <br/>
+		  If you win a jackpot in simulator, maybe you'll be lucky enough to win in real life!
+		  <br/>
+		  Good luck!
+		  </p>
+		</div>
+	
+	    <div class="panel panel-primary">
+	  
+		  <div class="panel-heading">Simulation parameters</div>
+		  <div class="panel-body">
+		  
+		   <div  ng-app="app" ng-controller="InitialController">
+			<form ng-submit="processForm()">
+			
+			<div class="form-group">
+			  <label class="col-sm-2 control-label">Lottery Type:</label>
+				    <select class="form-control" ng-model="formData.type">
+				    <option value="1">Lotto 5/35</option>
+					<option value="2">Lotto 5/36</option>
+					<option value="3">Lotto 5/40</option>
+					<option value="4">Lotto 5/42</option>
+					<option value="5">Lotto 5/90</option>
+					<option value="6">Lotto 6/39</option>
+					<option value="7">Lotto 6/42</option>
+					<option value="8">Lotto 6/45</option>
+					<option value="9">Lotto 6/49</option>
+					<option value="10">Lotto 7/35</option>
+					<option value="11">Lotto 7/39</option>
+					<option value="12">Lotto 7/49</option>
+				</select>
+			  </div>
+			
+			   <div class="form-group">
+			    <label class="col-sm-2 control-label">Simulation duration</label>
+			       <select class="form-control" ng-model="formData.duration">
+					  <option value="1">1 year</option>
+					  <option value="2">10 years</option>
+					  <option value="3">50 years</option>
+					  <option value="4">100 years</option>
+					  <option value="5">500 years</option>
+					  <option value="6">1000 years</option>
+				</select>
+				</div>
+				
+				 <div class="form-group">
+			    	<label class="col-sm-2 control-label">Play every</label><br/>
+			    	
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[0]">Monday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[1]">Tuesday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[2]">Wednesday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[3]">Thursday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[4]">Friday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[5]">Saturday</label></div>
+			    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[6]">Sunday</label></div>
+			
+				</div>
+				
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Next</button>
+			  
+			</form>
+			
+			  <pre>
+		    {{ formData }}
+		</pre>
+			
+			</div>
+		    
+		   </div>
+	   </div>
+   
+   </div>
+   
+   
+    </body>
+    
+    
+    
+ </html>

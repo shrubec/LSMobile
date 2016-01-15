@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Lottery Simulator</title>
+
+   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+	<script>
+	// define the module we're working with
+    var app = angular.module('sse', []);
+ 
+    // define the ctrl
+    
+    
+    app.controller('statCtrl', function($scope){
+
+    		 
+        	
+            // the last received msg
+            $scope.msg = {};
+     
+            // handles the callback from the received event
+            var handleCallback = function (msg) {
+                $scope.$apply(function () {
+                    $scope.msg = JSON.parse(msg.data)
+                });
+            }
+     
+            var source = new EventSource('/stats');
+            source.addEventListener('message', handleCallback, false);
+
+	})
+    
+    
+</script>
+
+
+  </head>
+  <body  >
+  
+<div class="container main" ng-app="sse" ng-controller="statCtrl">
+    <div class="row">
+        <div class="span10 offset1" style="text-align: center">
+            <h2>System details updated using server-sent events</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span8 offset2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Broj 1:</td>
+                    <td>{{msg.number1}}</td>
+                </tr>
+                 <tr>
+                    <td>Broj 2:</td>
+                    <td>{{msg.number2}}</td>
+                </tr>
+                 <tr>
+                    <td>Broj 3:</td>
+                    <td>{{msg.number3}}</td>
+                </tr>
+                </tbody>
+                </table>
+                </div>
+                </div>
+                </div>
+   
+   
+    </body>
+    
+    
+    
+ </html>

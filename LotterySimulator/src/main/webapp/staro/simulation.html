@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Lottery Simulator</title>
+
+    <!-- Bootstrap -->
+    <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<!--     <script src="resources/bootstrap/js/bootstrap.min.js"></script> -->
+
+
+<!-- za STOMP -->
+	 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+
+   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      function drawChart($data) {
+    	  
+
+		var dataArray=[];
+		dataArray[0]='Description';
+		dataArray[1]='Total';
+		
+		var chartArray=[];
+		chartArray[0]=dataArray;
+		
+		
+		for (var i=1; i <= $data.length; i++) {
+			var dataArray1=[];
+			dataArray1[0]=$data[i-1][0];
+			dataArray1[1]=$data[i-1][1];
+			chartArray[i]=dataArray1;
+		}
+		
+		var chartData = google.visualization.arrayToDataTable(chartArray);
+		 
+        var options = {
+          title: 'Simulation statistics',
+       	  is3D: true, 
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(chartData, options);
+      }
+    </script>
+    
+    
+     <script type="text/javascript">
+     
+    	var app = angular.module('app', []);
+    	
+	    	app.controller('Simulation', function($scope,$http,$timeout){
+	
+	    		var messageList = $("#messages");
+	            var socket = new SockJS('/stomp');
+	            var stompClient = Stomp.over(socket);
+	
+	            stompClient.connect({ }, function(frame) {
+	                stompClient.subscribe("/topic/message", function(data) {
+	                    var message = data.body;
+	                     $timeout(function(){
+	                    	$scope.simulation = JSON.parse(message);
+	                     });
+	                    
+	                });
+	            });			
+    		
+    	});
+	    	
+	    	app.controller('SimulationStatistics', function($scope,$http,$timeout){
+	    		
+	    		var messageList = $("#messages");
+	
+	            // defined a connection to a new socket endpoint
+	            var socket = new SockJS('/stomp');
+	            var stompClient = Stomp.over(socket);
+	
+	            stompClient.connect({ }, function(frame) {
+	                // subscribe to the /topic/message endpoint
+	                stompClient.subscribe("/topic/message2", function(data) {
+	                    var message = data.body;
+	                     $timeout(function(){
+	                    	$scope.simulation = JSON.parse(message);
+	                    	
+	                    	drawChart($scope.simulation.currentStatistics);
+	                    	
+	                     });
+	                    
+	                });
+	            });			
+    	            
+    		
+    	});
+	    	
+		app.controller('SimulationButtons', function($scope,$http,$window){
+	    		
+			
+			 $scope.simulationAction='0';
+			 
+			 $scope.start = function() {
+				 $scope.simulationAction='1';
+				 sendAction($http, $scope).success(function(){ 
+				   	 	console.log('stasrt simulation...');
+			   		});
+    		 };
+    		 
+    		 $scope.pause = function() {
+    			 $scope.simulationAction='2';
+				 sendAction($http, $scope).success(function(){ 
+				   	 	//$window.location.href = '/simulation.html';
+				   	 	console.log('pause simulation');
+			   		});
+    		 };
+    		 
+    		 $scope.next = function() {
+    			 $scope.simulationAction='3';
+				 sendAction($http, $scope).success(function(){ 
+				   	 	//$window.location.href = '/simulation.html';
+				   	 	console.log('next drawing');
+			   		});
+    		 };
+    		 
+    		 $scope.restart = function() {
+    			 $scope.simulationAction='4';
+				 sendAction($http, $scope).success(function(){ 
+				   	 	//$window.location.href = '/simulation.html';
+				   	 	console.log('restart');
+			   		});
+    		 };
+    		 
+    		 $scope.back = function() {
+    			 $scope.simulationAction='5';
+				 sendAction($http, $scope).success(function(){ 
+				   	 	console.log('go back');
+				   	 	$window.location.href = '/';
+			   		});
+    		 };
+    		 
+    		 
+			
+			sendAction  = function($http, $scope) {
+				return $http({
+	    	        method: 'GET',
+	    	        url: '/simulationAction?action='+$scope.simulationAction
+	    	    });      
+			}
+			
+			$scope.getActionButtonClass= function(buttonType) {
+				
+				console.log('button type ' + buttonType);
+				
+				if (buttonType == 1) {
+					if ($scope.simulationAction == 0 || $scope.simulationAction == 2 || $scope.simulationAction == 3) {
+						return "btn btn-success btn-block"
+					}
+					else {
+						return "btn btn-success btn-block disabled"
+					}
+				}
+				else if (buttonType == 2) {
+					if ($scope.simulationAction == 1 || $scope.simulationAction == 4) {
+						return "btn btn-success btn-block"
+					}
+					else {
+						return "btn btn-success btn-block disabled"
+					}
+				}
+				else if (buttonType == 3) {
+					if ($scope.simulationAction != 1 && $scope.simulationAction != 4) {
+						return "btn btn-primary btn-block"
+					}
+					else {
+						return "btn btn-primary btn-block disabled"
+					}					
+				}
+				else if (buttonType == 4) {
+					return "btn btn-primary btn-block"
+				}
+				else if (buttonType == 5) {
+					return "btn btn-default btn-block"
+				}
+		
+			}
+    		
+    	});
+    		
+        
+    </script>
+
+  </head>
+  <body>
+  
+  <div id="container">
+	  <div id="header">
+	    <h1>Lottery Simulator</h1>
+	    	<p><em>Neki slogan </em> </p>
+	  </div>
+  </div> 
+    
+     <div class="simulatorBody" ng-app="app" ng-controller="Simulation">
+    	<div class="panel panel-success">
+  			<div class="panel-body">
+  
+			  <form > 
+			  	<ul class="list-group">
+				  
+					  <li class="list-group-item">
+						    <span class="badge badgeWidth"> <label class="labelColumnNumber2">{{simulation.drawing}}</label></span>
+						    Drawing number
+					  </li>
+					  
+					   <li class="list-group-item">
+						    <span class="badge badgeWidth"> <label class="labelColumnNumberDate">{{simulation.date}}</label></span>
+						    Drawing date
+					  </li>
+					  
+					   <li class="list-group-item">
+						     <span class="badge badgeWidth">
+								 <label class="labelColumnNumber2">{{simulation.numberOfHits}}</label>
+							</span>
+						    Number of hits
+					  </li>
+					  
+					   <li class="list-group-item">
+					     	 <span class="badge" ng-repeat="number in simulation.drawedNmbers" ng-class="{'badge badgeBlue': number < 20, 'badge': number > 20}">
+							  	<label class="labelColumnNumber2">{{number}}</label>
+							 </span>
+					    	My numbers
+					  </li>
+					  
+					   <li class="list-group-item">
+						  	<span class="badge" ng-repeat="number in simulation.drawedNmbers">
+								     <label class="labelColumnNumber2">{{number}}</label>
+							</span>
+						    Drawed numbers
+					   </li>
+					  
+				       <li class="list-group-item">
+							<div class="progress" >
+								  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"  ng-style="{width : ( simulation.percantage + '%' ) }">
+									    Simulation progress: {{simulation.percantage}}%
+								  </div>
+							</div>
+						</li>
+				  
+				</ul>
+			   </form>
+    
+     
+	     <div class="simulatorResults" >
+
+			 <div style="width:30%; float: left;" ng-app="app" ng-controller="SimulationButtons">
+		  
+		  		 <div style="margin-top:10%;margin-left:10%;overflow: auto;">
+		  		 
+		  		 	<div style="overflow: auto;">
+		  		 		<div style="width:50%; float:left; padding:3px; ">
+				  		 	<button  ng-class="getActionButtonClass(1)" ng-click="start()">
+							  <span class="glyphicon glyphicon-play" aria-hidden="true" ></span> Start simulation
+							</button>
+		  		 		</div>
+		  		 		
+		  		 		<div style="width:50%; float:right;padding:3px; ">
+		  		 			<button type="submit"  ng-class="getActionButtonClass(2)" ng-click="pause()">
+							  <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pause
+							</button>
+		  		 		</div>
+		  		 	</div>
+		  		 
+			  		<div style="overflow: auto;">
+		  		 		<div style="width:50%; float:left;padding:3px; ">
+				  		 	<button type="submit"  ng-class="getActionButtonClass(3)" ng-click="next()">
+							  <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Next Drawing
+							</button>
+		  		 		</div>
+		  		 		
+		  		 		<div style="width:50%; float:right;padding:3px; ">
+					    	<button type="submit" ng-class="getActionButtonClass(4)" ng-click="restart()"> 
+							  <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span> Restart simulation
+							</button>
+		  		 		</div>
+		  		 	</div>
+					 
+					 <div style="overflow: auto;">
+						<div style="position: relative;margin-top:10px;padding:3px; ">
+							<button type="submit"ng-class="getActionButtonClass(5)" ng-click="back()">
+							  <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back
+							</button>
+						</div>
+					</div>
+		  		 
+		  		 </div>
+		  		
+	  		</div>
+	    
+	     <div id="piechart" style="width:70%;height:400px; float: right;" ng-app="app" ng-controller="SimulationStatistics"></div>
+	    
+	  </div>
+     
+     </div>
+    
+ 
+  </div>
+   
+   </div>
+   
+   
+    </body>
+    
+    
+    
+ </html>
