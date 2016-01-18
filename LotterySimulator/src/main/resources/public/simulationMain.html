@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple lottery simulator designed to demonstrate low chances of winning the jackpot">
+	<meta name="keywords" content="lottery,lotto,chances,numbers,lucky,winning,jackpot,years,simulator,simulation,duration,statistics">
+	<meta name="author" content="Saša Hrubec">
+    
     <title>Lottery Simulator</title>
 
     <!-- Bootstrap -->
@@ -83,7 +87,7 @@
 				  <p>
 				  Select lottery type, drawing days and your lucky numbers, then start a simulation to find out your real chances to win a lottery. 
 				 </p>
-				  <p>If you win a jackpot in simulator, maybe you'll be lucky enough to win in real life!</p>
+				  <p>If you win a jackpot in the simulator, maybe you'll be lucky enough to win in real life!</p>
 				<p>
 				  Good luck!
 				  </p>
@@ -100,7 +104,7 @@
 					<form ng-submit="processForm()">
 					
 					<div class="form-group">
-					  <label class="col-sm-2 control-label">Lottery Type:</label>
+					  <label class="col-sm-2 control-label">Lottery type:</label>
 						    <select class="form-control" ng-model="formData.type">
 						    <option value="1">Lotto 5/35</option>
 							<option value="2">Lotto 5/36</option>
@@ -142,7 +146,7 @@
 					
 						</div>
 						
-						<button type="submit" class="btn btn-primary btn-lg btn-block">  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Next</button>
+						<button type="submit" class="btn btn-primary btn-lg btn-block">  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Select numbers</button>
 					  
 					</form>
 					
@@ -164,7 +168,7 @@
 			   <div  ng-app="app" ng-controller="NumbersController">
 			   
 				    <div  ng-class="getPanelClass()">
-					  <div class="panel-heading">Selected numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
+					  <div class="panel-heading">Your lucky numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
 
 					  <form ng-submit="processForm()">
 						  <div class="panel-body">
@@ -304,14 +308,14 @@
 							   	 <span class="badge" ng-repeat="number in simulation.selectedNumbers | orderBy:number:true" ng-class="{'badge badgeBlue': simulation.drawedNmbers.indexOf(number) > -1, 'badge': simulation.drawedNmbers.indexOf(number) < 0}">
 								  	<label class="labelColumnNumber2">{{number}}</label>
 								 </span>
-							   	My numbers
+							   	Your numbers
 							</li>
 							  
 							<li class="list-group-item">
 							  	<span class="badge" ng-repeat="number in simulation.drawedNmbers | orderBy:number:true">
 								     <label class="labelColumnNumber2">{{number}}</label>
 								</span>
-							    Drawed numbers
+							    Drawn numbers
 							</li>
 							  
 						    <li class="list-group-item" ng-if="simulation.finished == false || simulation.finished == undefined">
