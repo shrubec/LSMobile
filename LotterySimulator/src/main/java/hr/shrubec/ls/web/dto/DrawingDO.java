@@ -2,7 +2,8 @@ package hr.shrubec.ls.web.dto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DrawingDO {
@@ -28,6 +29,26 @@ public class DrawingDO {
 		this.drawedNmbers = drawedNmbers;
 		this.selectedNumbers=selectedNumbers;
 		calculatePercantage(totalDrawingCount);
+		Collections.sort(this.selectedNumbers, new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				// TODO Auto-generated method stub
+				return o2.compareTo(o1);
+			}
+			
+		});
+		
+		Collections.sort(this.drawedNmbers, new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				// TODO Auto-generated method stub
+				return o2.compareTo(o1);
+			}
+			
+		});
+		
 	}
 
 	private void calculatePercantage(Integer totalDrawingCount) {
@@ -100,6 +121,5 @@ public class DrawingDO {
 		this.finished = finished;
 	}
 
-	
 	
 }

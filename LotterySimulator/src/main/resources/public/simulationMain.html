@@ -12,38 +12,23 @@
 
     <!-- Bootstrap -->
 <!--     <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
-    
       <link href="resources/bootstrap/css/bootstrap_cerulean.min.css" rel="stylesheet">
 <!--        <link href="resources/bootstrap/css/bootstrap_flatly.css" rel="stylesheet"> -->
-    
-    
     
     <link href="resources/css/style.css" rel="stylesheet">
 <!--  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script> -->
 
- 	<script src="resources/js/jquery.min.js"></script>
-    <script src="resources/js/sockjs.min.js"></script>
-    <script src="resources/js/stomp.min.js" ></script>
-	<script src="resources/js/jsapi.js"></script>
-<!-- 	<script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
-	
  	<script src="resources/js/angular.min.js"></script>
  	<script src="resources/js/simulator.js"></script>
- 	
- 	<script type="text/javascript">
-	 	<!-- Analitika -->
-		 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	
-			 ga('create', 'UA-57049166-1', 'auto');
-			 ga('send', 'pageview');
-		
-	</script>
 
+<!--     <script src="resources/js/sockjs.min.js"></script> -->
+<!--     <script src="resources/js/stomp.min.js" ></script> -->
+<!--  	<script src="resources/js/jquery.min.js"></script> -->
+<!-- 	<script src="resources/js/jsapi.js"></script> -->
+ 	
   </head>
   <body>
+  
   
   <div id="container">
 	  <div id="header">
@@ -53,32 +38,30 @@
 	  
   </div>
     
-     <div>
-     <div ng-app="app" ng-controller="MainController">
+     <div >
      
-        <div id="sidebarLeft" ng-if="renderDesktopAdd()">
+     <div ng-app="app" ng-controller="MainController" > 
+     
+        <div id="sidebarLeft" ng-if="renderDesktopMainDiv()">
 
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- Simulator5 -->
-			<ins class="adsbygoogle"
-			     style="display:inline-block;width:250px;height:600px"
-			     data-ad-client="ca-pub-2684111047384583"
-			     data-ad-slot="6921941752"></ins>
-			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
+			 <div ng-if="renderDesktopAdd()">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- Simulator5 -->
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:250px;height:600px"
+					     data-ad-client="ca-pub-2684111047384583"
+					     data-ad-slot="6921941752"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+			 
+			 </div>
 
         </div>
      
      	<div  ng-class="getContentClass()">
      
-     
-     	
-     
-     	<div ng-if="activePage == 'firstPage' ">
-     	
-     	
-     
+     	 <div ng-if="activePage == 'firstPage' ">
      	
 		     <div class="simulatorBody" >
 		    
@@ -122,7 +105,7 @@
 					  </div>
 					
 					   <div class="form-group">
-					    <label class="col-sm-2 control-label" style="width:250px;">Simulation duration</label>
+					    <label class="col-sm-2 control-label" style="width:250px;">Simulate drawing for</label>
 					       <select class="form-control" ng-model="formData.duration">
 							  <option value="1">10 year</option>
 							  <option value="2">20 years</option>
@@ -133,26 +116,22 @@
 						</select>
 						</div>
 						
-						 <div class="form-group">
-					    	<label class="col-sm-2 control-label">Play every</label><br/>
+						 <div class="form-group" >
+					    	<label class="col-sm-2 control-label">Drawing schedule</label><br/> 
 					    	
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[0]">Monday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[1]">Tuesday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[2]">Wednesday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[3]">Thursday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[4]">Friday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[5]">Saturday</label></div>
-					    	<div class="checkbox"><label><input type="checkbox" value="" ng-model="formData.days[6]">Sunday</label></div>
+					    	<div class="checkbox checkboxMobile" ><label><input type="checkbox" value="" ng-model="formData.days[0]">Monday</label></div>
+					    	<div class="checkbox checkboxMobile" ><label><input type="checkbox" value="" ng-model="formData.days[1]">Tuesday</label></div>
+					    	<div class="checkbox checkboxMobile"><label><input type="checkbox" value="" ng-model="formData.days[2]">Wednesday</label></div>
+					    	<div class="checkbox checkboxMobile"><label><input type="checkbox" value="" ng-model="formData.days[3]">Thursday</label></div>
+					    	<div class="checkbox checkboxMobile"><label><input type="checkbox" value="" ng-model="formData.days[4]">Friday</label></div>
+					    	<div class="checkbox checkboxMobile"><label><input type="checkbox" value="" ng-model="formData.days[5]">Saturday</label></div>
+					    	<div class="checkbox checkboxMobile"><label><input type="checkbox" value="" ng-model="formData.days[6]">Sunday</label></div>
 					
 						</div>
 						
-						<button type="submit" class="btn btn-primary btn-lg btn-block">  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Select numbers</button>
+						<button type="submit" class="btn btn-primary btn-lg btn-block">  <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Choose numbers</button>
 					  
 					</form>
-					
-<!-- 					  <pre> -->
-<!-- 				    {{ formData }} -->
-<!-- 				</pre> -->
 					
 					</div>
 				    
@@ -165,7 +144,7 @@
      	
      	<div ng-if="activePage == 'secondPage' ">
      		<div class="simulatorBody">
-			   <div  ng-app="app" ng-controller="NumbersController">
+			   <div  ng-app="app" ng-controller="NumbersController" id="numbersDiv">
 			   
 				    <div  ng-class="getPanelClass()">
 					  <div class="panel-heading">Your lucky numbers: {{numCount}} / {{ simulationParameters.numbers }}</div>
@@ -279,6 +258,7 @@
      	
      	
      	<div ng-if="activePage == 'thirdPage' ">
+     	
      		<div class="simulatorBody" ng-app="app" ng-controller="Simulation">
      		
 		    	<div class="panel panel-success">
@@ -305,14 +285,14 @@
 							 </li>
 							  
 							 <li class="list-group-item">
-							   	 <span class="badge" ng-repeat="number in simulation.selectedNumbers | orderBy:number:true" ng-class="{'badge badgeBlue': simulation.drawedNmbers.indexOf(number) > -1, 'badge': simulation.drawedNmbers.indexOf(number) < 0}">
+							   	 <span class="badge" ng-repeat="number in simulation.selectedNumbers" ng-class="{'badge badgeBlue': simulation.drawedNmbers.indexOf(number) > -1, 'badge': simulation.drawedNmbers.indexOf(number) < 0}">
 								  	<label class="labelColumnNumber2">{{number}}</label>
 								 </span>
 							   	Your numbers
 							</li>
 							  
 							<li class="list-group-item">
-							  	<span class="badge" ng-repeat="number in simulation.drawedNmbers | orderBy:number:true">
+							  	<span class="badge" ng-repeat="number in simulation.drawedNmbers">
 								     <label class="labelColumnNumber2">{{number}}</label>
 								</span>
 							    Drawn numbers
@@ -389,7 +369,8 @@
      </div>
      	
 
-    <div id="sidebar" ng-if="renderDesktopAdd()">
+    <div id="sidebar" ng-if="renderDesktopMainDiv()">
+    	<div ng-if="renderDesktopAdd()">
 			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- Simulator4 -->
 			<ins class="adsbygoogle"
@@ -399,6 +380,9 @@
 			<script>
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
+    	
+    	</div>
+    
 
 	</div>
 
@@ -427,6 +411,18 @@
 		  <p>Contact information: <a href="mailto:shrubec@gmail.com">shrubec@gmail.com</a></p>
 		</footer> 
 	</div> 
+	
+	<script type="text/javascript">
+	 	<!-- Analitika -->
+		 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+			 ga('create', 'UA-57049166-1', 'auto');
+			 ga('send', 'pageview');
+		
+	</script>
    
     </body>
     

@@ -1,4 +1,45 @@
 
+	script1=function() {
+	    var s = document.createElement('script');
+	    s.type = 'text/javascript';
+	    s.async = true;
+	    s.src = 'resources/js/sockjs.min.js';
+	    var x = document.getElementsByTagName('script')[0];
+	    x.parentNode.insertBefore(s, x);
+	    console.log('loadana skripta 1');
+	};
+	
+	script2=function() {
+	    var s = document.createElement('script');
+	    s.type = 'text/javascript';
+	    s.async = true;
+	    s.src = 'resources/js/stomp.min.js';
+	    var x = document.getElementsByTagName('script')[0];
+	    x.parentNode.insertBefore(s, x);
+	    console.log('loadana skripta 2');
+	    
+	};
+	
+	script3=function() {
+	    var s = document.createElement('script');
+	    s.type = 'text/javascript';
+	    s.async = true;
+	    s.src = 'resources/js/jquery.min.js';
+	    var x = document.getElementsByTagName('script')[0];
+	    x.parentNode.insertBefore(s, x);
+	    console.log('loadana skripta 3');
+	};
+	
+	script4=function() {
+	    var s = document.createElement('script');
+	    s.type = 'text/javascript';
+	    s.async = true;
+	    s.src = 'resources/js/jsapi.js';
+	    var x = document.getElementsByTagName('script')[0];
+	    x.parentNode.insertBefore(s, x);
+	    console.log('loadana skripta 4');
+	};
+
 var isMobile = {
 	Android : function() {
 		return navigator.userAgent.match(/Android/i);
@@ -22,42 +63,7 @@ var isMobile = {
 };
 
 
-google.load("visualization", "1", {packages:["corechart"]});
-function drawChart($data) {
-	
-	if ($data != null) {
-		
-		var dataArray=[];
-		dataArray[0]='Description';
-		dataArray[1]='Total';
-		
-		var chartArray=[];
-		chartArray[0]=dataArray;
-		
-		for (var i=1; i <= $data.length; i++) {
-			var dataArray1=[];
-			dataArray1[0]=$data[i-1][0];
-			dataArray1[1]=$data[i-1][1];
-			chartArray[i]=dataArray1;
-		}
-		
-		var chartData = google.visualization.arrayToDataTable(chartArray);
-		
-		var options = {
-				//title: 'Simulation statistics',
-				is3D: true,  
-				chartArea: {left:5, top:25, width:'100%'},
-				legend: {top:20,alignment:'center'},
-				sliceVisibilityThreshold: 0
-				
-		};
-		
-		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-		chart.draw(chartData, options);
-	}
-	
-}
-
+//google.load("visualization", "1", {packages:["corechart"]});
 var app = angular.module('app', []);
 
 
@@ -72,17 +78,32 @@ app.controller('MainController', function($rootScope,$scope, $http,$interval) {
 	
 	 $rootScope.random=Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
 	 $rootScope.activePage='firstPage';
+	 
+	 $scope.renderDesktopMainDiv = function() {
+		 if (isMobile.any()) {
+			 return false;
+		 }
+		 else {
+			 return true;
+		 }
+	 };  
+	 
 	 $scope.renderDesktopAdd = function() {
 			 if (isMobile.any()) {
 				 return false;
 			 }
 			 else {
-				 return true;
+				 if ($rootScope.activePage =='secondPage' || $rootScope.activePage =='thirdPage') {
+					 return true;
+				 }
+				 else {
+					 return false;
+				 }
 			 }
 	  };  
 	  
 	  $scope.renderMobileAdd = function() {
-			 if (isMobile.any()) {
+			 if (isMobile.any() && ($rootScope.activePage =='secondPage' || $rootScope.activePage =='thirdPage')) {
 				 return true;
 			 }
 			 else {
@@ -153,10 +174,16 @@ app.controller('InitialController', function($rootScope,$scope, $http) {
 
 /** Select brojeva*/
 
-app.controller('NumbersController', function($rootScope,$scope,$http){
+app.controller('NumbersController', function($rootScope,$scope,$http,$anchorScroll){
+	
+	script1();
+	script2();
+	script3();
+	script4();
 	
 	getInitialData($rootScope,$scope,$http);
 	$scope.numCount=0;
+	$anchorScroll('header');
     
     function getInitialData($rootScope,$scope, $http) {
         $http.get('/simulationParameters?random='+Math.random()).
@@ -209,6 +236,7 @@ app.controller('NumbersController', function($rootScope,$scope,$http){
 	 $scope.processForm = function() {
 		 saveData($http, $scope).success(function(){ 
 			 	$rootScope.activePage='thirdPage';
+			 	$anchorScroll('header');
 		   	});
 	};
 	
@@ -223,6 +251,8 @@ app.controller('NumbersController', function($rootScope,$scope,$http){
     	  });
 	 };
 
+	
+		
 });
 
 
@@ -231,6 +261,7 @@ app.controller('NumbersController', function($rootScope,$scope,$http){
 
 app.controller('Simulation', function($rootScope,$scope,$http,$timeout){
 	
+	setTimeout(function(){google.load('visualization', '1', {'callback':'function() {}', 'packages':['corechart']})}, 200);
 	
 	var messageList = $("#messages");
     var socket = new SockJS('/stomp');
@@ -244,11 +275,13 @@ app.controller('Simulation', function($rootScope,$scope,$http,$timeout){
              });
             
         });
-    });			
-
+    });		
+    
+    
 });
 
 app.controller('SimulationStatistics', function($rootScope,$scope,$http,$timeout){
+	
 	
 	var messageList = $("#messages");
 
@@ -268,8 +301,42 @@ app.controller('SimulationStatistics', function($rootScope,$scope,$http,$timeout
              });
             
         });
-    });			
-        
+    });		
+    
+    function drawChart($data) {
+		
+		if ($data != null) {
+			
+			var dataArray=[];
+			dataArray[0]='Description';
+			dataArray[1]='Total';
+			
+			var chartArray=[];
+			chartArray[0]=dataArray;
+			
+			for (var i=1; i <= $data.length; i++) {
+				var dataArray1=[];
+				dataArray1[0]=$data[i-1][0];
+				dataArray1[1]=$data[i-1][1];
+				chartArray[i]=dataArray1;
+			}
+			
+			var chartData = google.visualization.arrayToDataTable(chartArray);
+			
+			var options = {
+					//title: 'Simulation statistics',
+					is3D: true,  
+					chartArea: {left:5, top:25, width:'100%'},
+					legend: {top:20,alignment:'center'},
+					sliceVisibilityThreshold: 0
+					
+			};
+			
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			chart.draw(chartData, options);
+		}
+		
+	};
 
 });
 
