@@ -1,0 +1,49 @@
+
+
+Lijevi
+ <div ng-if="renderDesktopAdd()">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					Simulator5
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:250px;height:600px"
+					     data-ad-client="ca-pub-2684111047384583"
+					     data-ad-slot="6921941752"></ins>
+					<script>
+ 					(adsbygoogle = window.adsbygoogle || []).push({});
+ 					</script> 
+			 
+			 </div>
+			 
+			 
+Desni
+
+<div ng-if="renderDesktopAdd()">
+    	
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Simulator4 -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:250px;height:600px"
+			     data-ad-client="ca-pub-2684111047384583"
+			     data-ad-slot="5445208555"></ins>
+			<script>
+ 			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script> 
+    	
+    	</div>
+    	
+ 
+ 
+ Mobilni
+ 
+  <div id="footer" ng-if="renderMobileAdd()">
+	 
+	 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:320px;height:50px"
+		     data-ad-client="ca-pub-2684111047384583"
+		     data-ad-slot="3527823358"></ins>
+		<script>
+ 		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script> 
+	 
+	 </div>

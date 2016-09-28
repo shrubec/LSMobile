@@ -88,11 +88,13 @@ app.controller('MainController', function($rootScope,$scope, $http,$interval) {
 		 }
 	 };  
 	 
+//	  za google adsense
 	 $scope.renderDesktopAdd = function() {
 			 if (isMobile.any()) {
 				 return false;
 			 }
 			 else {
+				 return true;
 				 if ($rootScope.activePage =='secondPage' || $rootScope.activePage =='thirdPage') {
 					 return true;
 				 }
@@ -102,14 +104,107 @@ app.controller('MainController', function($rootScope,$scope, $http,$interval) {
 			 }
 	  };  
 	  
+//	  za google adsense
 	  $scope.renderMobileAdd = function() {
-			 if (isMobile.any() && ($rootScope.activePage =='secondPage' || $rootScope.activePage =='thirdPage')) {
+			 if (isMobile.any()) {
 				 return true;
 			 }
 			 else {
 				 return false;
 			 }
 	  };  
+	  
+	  
+//	  za mylotto oglase
+	  
+	  $scope.renderDesktopAddLeft = function() {
+			 if (isMobile.any()) {
+				 return false;
+			 }
+			 else {
+				 return true;
+			 }
+	  };  
+	  
+		 $scope.renderDesktopAdd1 = function() {
+			 if (isMobile.any()) {
+				 return false;
+			 }
+			 else {
+				 if ($rootScope.activePage =='firstPage') {
+					 return true;
+				 }
+				 else {
+					 return false;
+				 }
+			 }
+	  };  
+	  
+	  $scope.renderDesktopAdd2 = function() {
+			 if (isMobile.any()) {
+				 return false;
+			 }
+			 else {
+				 if ($rootScope.activePage =='secondPage') {
+					 return true;
+				 }
+				 else {
+					 return false;
+				 }
+			 }
+	  };  
+	  
+	  $scope.renderDesktopAdd3 = function() {
+			 if (isMobile.any()) {
+				 return false;
+			 }
+			 else {
+				 if ($rootScope.activePage =='thirdPage') {
+					 return true;
+				 }
+				 else {
+					 return false;
+				 }
+			 }
+	  };  
+	  
+	  $scope.renderMyLottoMobile1 = function() {
+		  	 if (isMobile.any() && $rootScope.activePage =='firstPage') {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+	  };  
+	  
+	  $scope.renderMyLottoMobile1 = function() {
+		  	 if (isMobile.any() && $rootScope.activePage =='firstPage') {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+	  };  
+	  
+	  $scope.renderMyLottoMobile2 = function() {
+		  	 if (isMobile.any() && $rootScope.activePage =='secondPage') {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+	  };  
+	  
+	  $scope.renderMyLottoMobile3 = function() {
+		  	 if (isMobile.any() && $rootScope.activePage =='thirdPage') {
+				 return true;
+			 }
+			 else {
+				 return false;
+			 }
+	  };  
+	  
+	  
 	  
 	  $scope.getContentClass = function() {
 			 if (isMobile.any()) {
